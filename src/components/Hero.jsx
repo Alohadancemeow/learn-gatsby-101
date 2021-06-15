@@ -26,7 +26,7 @@ const Hero = () => {
                         // primary="true"
                         big="true"
                         round="true"
-                        to="/trips"
+
                     >lorem ipsum
                     </Button>
                 </HeroItems>

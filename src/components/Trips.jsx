@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useStaticQuery, graphql } from 'gatsby'
-import { StaticImage } from 'gatsby-plugin-image'
 import { Button } from './styles/Button'
 import { ImLocation } from 'react-icons/im'
 
 const Trips = ({ heading }) => {
 
+    // # Query structure
     const data = useStaticQuery(graphql`
         query TripsQuery {
             allTripsJson {
@@ -28,8 +28,11 @@ const Trips = ({ heading }) => {
         }
     `)
 
+    // # Get data from Grapql
     const getTrips = (data) => {
+
         const tripsArray = []
+
         data.allTripsJson.edges.forEach((item, index) => {
             tripsArray.push(
                 <ProductCard key={index}>
@@ -43,7 +46,18 @@ const Trips = ({ heading }) => {
                             <ImLocation />
                             <ProductTitle>{item.node.name}</ProductTitle>
                         </TextWrap>
-                        <Button to='/trips'>{item.node.Button}</Button>
+                        <Button
+                            to='/trips'
+                            // primary='true'
+                            round='true'
+                            css={`
+                                position: absolute;
+                                top: 420px;
+                                font-size: 14px;
+                            `}
+                        >
+                            {item.node.button}
+                        </Button>
                     </ProductInfo>
                 </ProductCard>
             )
@@ -52,12 +66,14 @@ const Trips = ({ heading }) => {
         return tripsArray
     }
 
+
     return (
         <ProductContainer>
-            <ProductHeading>Heading</ProductHeading>
+            <ProductHeading>{heading}</ProductHeading>
             <ProductWrapper>{getTrips(data)}</ProductWrapper>
         </ProductContainer>
     )
+
 }
 
 export default Trips
@@ -67,8 +83,7 @@ export default Trips
 const ProductContainer = styled.div`
     min-height: 100vh;
     padding: 5rem calc((100vw - 1300px) / 2);
-    background: red;
-    color: #000;
+    color: #fff;
 `
 
 const ProductHeading = styled.div`
@@ -76,13 +91,14 @@ const ProductHeading = styled.div`
     text-align: center;
     margin-bottom: 5rem;
     color: #000;
+
 `
 
 
 const ProductWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
+    grid-gap: 20px;
     justify-items: center;
     padding: 0 2rem;
 
@@ -97,17 +113,18 @@ const ProductWrapper = styled.div`
 
 const ProductCard = styled.div`
     line-height: 2;
-    width: 100%;
-    height: 100%;
+    /* width: 100%; */
+    height: 500px;
     position: relative;
     border-radius: 10px;
     transition: 0.2s ease;
 `
 
-const ProductImg = styled(StaticImage)`
+const ProductImg = styled.img`
     height: 100%;
     max-width: 100%;
-    position: absolute;
+    position: relative;
+    border-radius: 10px;
     filter: brightness(70%);
     transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
 
@@ -139,4 +156,5 @@ const ProductTitle = styled.div`
     font-size: 1rem;
     font-weight: 400;
     margin-left: 0.5rem;
+    
 `
